@@ -27,7 +27,7 @@ A Python bridge that synchronizes your iCUE RGB devices (keyboard, mouse, etc.) 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/icuemagic.git
+git clone https://github.com/aderik/icuemagic.git
 cd icuemagic
 ```
 
