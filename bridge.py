@@ -6,20 +6,20 @@ from cuesdk import CueSdk, CorsairDeviceFilter, CorsairDeviceType, CorsairLedCol
 from flux_led import WifiLedBulb, BulbScanner
 from colorutils import Color
 
-# Configureer logging
+# Configure logging
 logger = logging.getLogger('icuemagic')
-logger.setLevel(logging.DEBUG)  # Laat de handlers het level bepalen
+logger.setLevel(logging.DEBUG)  # Let the handlers determine the level
 
 # Console handler
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)  # Standaard level
+console_handler.setLevel(logging.INFO)  # Default level
 console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(console_formatter)
 logger.addHandler(console_handler)
 
 # File handler
 file_handler = logging.FileHandler('icuemagic.log')
-file_handler.setLevel(logging.DEBUG)  # Log alles naar bestand
+file_handler.setLevel(logging.DEBUG)  # Log everything to file
 file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -96,18 +96,18 @@ def magichome_ip_wizard():
 class iCueController:
     def __init__(self, device_id, sdk=None):
         self.device_id = device_id
-        self.sdk = sdk or CueSdk()  # Gebruik bestaande SDK of maak nieuwe
+        self.sdk = sdk or CueSdk()  # Use existing SDK or create new one
         self._connected_event = threading.Event()
         self.last_colors = None
         
-        # Altijd verbinden, ook met bestaande SDK
+        # Always connect, even with existing SDK
         if not self.sdk.connect(lambda e: None):
             raise RuntimeError("Could not connect to iCUE SDK")
         
-        # Wacht even tot de SDK verbonden is
+        # Wait a moment for the SDK to connect
         time.sleep(1)
         
-        # Zoek het device
+        # Find the device
         self.device = self._find_device()
         if not self.device:
             raise RuntimeError(f"Device not found: {self.device_id}")
@@ -170,10 +170,10 @@ class iCueController:
             return None
 
     def reconnect(self):
-        """Probeer opnieuw te verbinden met de SDK"""
+        """Try to reconnect to the SDK"""
         try:
             self.sdk.disconnect()
-            time.sleep(2)  # Wacht wat langer voor reconnectie
+            time.sleep(2)  # Wait a bit longer for reconnection
             if not self.sdk.connect(lambda e: None):
                 raise RuntimeError("Could not connect to iCUE SDK")
             time.sleep(1)
@@ -347,12 +347,12 @@ def start_bridge(sdk, config):
 def main():
     # Initialize iCUE SDK
     sdk = CueSdk()
-    logger.setLevel(logging.ERROR)  # Zet logging level op ERROR voordat we de SDK initialiseren
+    logger.setLevel(logging.ERROR)  # Set logging level to ERROR before initializing the SDK
     
-    # Laad configuratie
+    # Load configuration
     config = load_config()
     
-    # Start de bridge
+    # Start the bridge
     start_bridge(sdk, config)
 
 if __name__ == "__main__":
